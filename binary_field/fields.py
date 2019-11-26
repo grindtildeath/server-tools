@@ -271,6 +271,13 @@ class ImageField(BinaryField):
                         obj, cr, uid, ids, name, context=context)
         return True
 
+    def _read_binary(self, storage, record, field_name, binary_uid,
+                     context=None):
+        if context.get('image_url'):
+            return storage.get_url(binary_uid)
+        return super(ImageField, self)._read_binary(
+            storage, record, field_name, binary_uid, context=context)
+
     def _refresh_cache(self, obj, cr, uid, ids, field_name, context=None):
         """Refresh the cache of the small image
         :params ids: list of object id to refresh
