@@ -183,11 +183,12 @@ class BinaryField(fields.function):
         storage_obj = obj.pool['storage.configuration']
         for record in obj.browse(cr, uid, ids, context=context):
             storage = storage_obj.get_storage(cr, SUPERUSER_ID, field_name, record)
+            container = storage_obj._get_config(cr, SUPERUSER_ID, record._name, field_name).get('base_path')
             binary_uid = record['%s_uid' % field_name]
             if binary_uid:
-                res = storage.update(binary_uid, value)
+                res = storage.update(binary_uid, value, container=container)
             else:
-                res = storage.add(value)
+                res = storage.add(value, container=container)
             vals = self._prepare_binary_meta(
                 cr, uid, field_name, res, context=context)
             record.write(vals)
