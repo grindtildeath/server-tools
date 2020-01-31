@@ -120,7 +120,7 @@ class FileSystemStorage(Storage):
             'file_size': file_size,
             }
 
-    def update(self, binary_uid, value):
+    def update(self, binary_uid, value, container=None):
         _logger.debug('Delete binary model: %s, field: %s, uid: %s'
                       % (self.model_name, self.field_name, binary_uid))
         self._file_delete(self.cr, SUPERUSER_ID, binary_uid)
